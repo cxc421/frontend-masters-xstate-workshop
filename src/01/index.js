@@ -1,25 +1,36 @@
-const elBox = document.querySelector('#box');
+const elBox = document.querySelector("#box");
 
-// Pure function that returns the next state,
-// given the current state and sent event
-function transition(state, event) {
-  switch (
-    state
-    // Add your state/event transitions here
-    // to determine and return the next state
-  ) {
-  }
-}
+const boxMachine = {
+  initial: "inactive",
+  states: {
+    inactive: {
+      on: {
+        CLICK: "active",
+      },
+    },
+    active: {
+      on: {
+        CLICK: "inactive",
+      },
+    },
+  },
+};
 
-// Keep track of your current state
-let currentState = undefined;
+const createInterpreter = (machine) => {
+  let currentState = machine.initial;
 
-function send(event) {
-  // Determine the next value of `currentState`
+  return {
+    send(event) {
+      currentState =
+        boxMachine.states[currentState]?.on?.[event] || currentState;
+      return currentState;
+    },
+  };
+};
 
-  elBox.dataset.state = currentState;
-}
+const boxIntepreter = createInterpreter(boxMachine);
 
-elBox.addEventListener('click', () => {
+elBox.addEventListener("click", () => {
   // send a click event
+  elBox.dataset.state = boxIntepreter.send("CLICK");
 });
