@@ -1,4 +1,4 @@
-import { createMachine, interpret } from "xstate";
+import { createMachine, interpret, assign } from "xstate";
 
 const elOutput = document.querySelector("#output");
 
@@ -20,8 +20,14 @@ output(user);
 
 const feedbackMachine = createMachine({
   initial: "question",
+  context: {
+    number: 0,
+  },
   states: {
     question: {
+      entry: assign({
+        number: () => Math.random() * 1000,
+      }),
       on: {
         CLICK_GOOD: {
           target: "thanks",
@@ -37,6 +43,9 @@ const feedbackMachine = createMachine({
       },
     },
     thanks: {
+      entry: assign({
+        number: () => Math.random() * 1000,
+      }),
       on: {
         CLOSE: "closed",
       },
@@ -50,11 +59,11 @@ const feedbackMachine = createMachine({
 const feedbackService = interpret(feedbackMachine);
 
 feedbackService.onTransition((state) => {
-  console.log(state.value);
+  console.log(state);
 });
 
 feedbackService.start();
 
 feedbackService.send("CLICK_GOOD");
 
-feedbackService.stop();
+// feedbackService.stop();
