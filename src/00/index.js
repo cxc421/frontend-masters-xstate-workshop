@@ -18,52 +18,54 @@ output(user);
 
 //
 
-const feedbackMachine = createMachine({
-  initial: "question",
-  context: {
-    number: 0,
-  },
-  states: {
-    question: {
-      entry: assign({
-        number: () => Math.random() * 1000,
-      }),
-      on: {
-        CLICK_GOOD: {
-          target: "thanks",
-        },
-        CLICK_BAD: {
-          target: "form",
-        },
-      },
-    },
-    form: {
-      on: {
-        SUBMIT: "thanks",
-      },
-    },
-    thanks: {
-      entry: assign({
-        number: () => Math.random() * 1000,
-      }),
-      on: {
-        CLOSE: "closed",
-      },
-    },
-    closed: {
-      type: "final",
-    },
-  },
-});
+// const feedbackMachine = createMachine({
+//   initial: "question",
+//   context: {
+//     number: 0,
+//   },
+//   states: {
+//     question: {
+//       entry: assign({
+//         number: () => Math.random() * 1000,
+//       }),
+//       on: {
+//         CLICK_GOOD: {
+//           target: "thanks",
+//         },
+//         CLICK_BAD: {
+//           target: "form",
+//         },
+//       },
+//     },
+//     form: {
+//       on: {
+//         SUBMIT: "thanks",
+//       },
+//     },
+//     thanks: {
+//       entry: assign({
+//         number: () => Math.random() * 1000,
+//       }),
+//       on: {
+//         CLOSE: "closed",
+//       },
+//     },
+//     closed: {
+//       type: "final",
+//     },
+//   },
+// });
 
-const feedbackService = interpret(feedbackMachine);
+// const feedbackService = interpret(feedbackMachine);
 
-feedbackService.onTransition((state) => {
-  console.log(state);
-});
+// feedbackService.onTransition((state) => {
+//   console.log(state);
+// });
 
-feedbackService.start();
+// feedbackService.start();
 
-feedbackService.send("CLICK_GOOD");
+// feedbackService.send("CLICK_GOOD");
 
 // feedbackService.stop();
+
+// const snakeGameMachine;
